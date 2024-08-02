@@ -1,0 +1,219 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Python Functions Playground\n",
+    "\n",
+    "ใน Notebook นี้ เราจะสำรวจการสร้างและใช้งานฟังก์ชันใน Python"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 1. การสร้างและเรียกใช้ฟังก์ชัน"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "def greet():\n",
+    "    print(\"สวัสดีครับ!\")\n",
+    "\n",
+    "# เรียกใช้ฟังก์ชัน\n",
+    "greet()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 2. พารามิเตอร์และการส่งค่ากลับ"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# a. ฟังก์ชันที่มีพารามิเตอร์\n",
+    "def greet_person(name):\n",
+    "    print(f\"สวัสดีคุณ {name}\")\n",
+    "\n",
+    "greet_person(\"สมชาย\")\n",
+    "\n",
+    "# b. ฟังก์ชันที่ส่งค่ากลับ\n",
+    "def add(a, b):\n",
+    "    return a + b\n",
+    "\n",
+    "result = add(5, 3)\n",
+    "print(f\"5 + 3 = {result}\")\n",
+    "\n",
+    "# c. ฟังก์ชันที่มีค่าเริ่มต้นของพารามิเตอร์\n",
+    "def greet_with_title(name, title=\"คุณ\"):\n",
+    "    print(f\"สวัสดี{title}{name}\")\n",
+    "\n",
+    "greet_with_title(\"สมชาย\")\n",
+    "greet_with_title(\"สมศรี\", \"คุณหมอ\")\n",
+    "\n",
+    "# d. ฟังก์ชันที่รับจำนวนพารามิเตอร์ไม่จำกัด\n",
+    "def sum_all(*args):\n",
+    "    return sum(args)\n",
+    "\n",
+    "print(f\"1 + 2 + 3 + 4 = {sum_all(1, 2, 3, 4)}\")\n",
+    "print(f\"10 + 20 = {sum_all(10, 20)}\")\n",
+    "\n",
+    "# e. ฟังก์ชันที่รับคีย์เวิร์ดอาร์กิวเมนต์\n",
+    "def print_info(**kwargs):\n",
+    "    for key, value in kwargs.items():\n",
+    "        print(f\"{key}: {value}\")\n",
+    "\n",
+    "print_info(name=\"สมชาย\", age=30, city=\"กรุงเทพ\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 3. การประยุกต์ใช้ฟังก์ชัน"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# a. ฟังก์ชันเป็นออบเจ็กต์ชั้นหนึ่ง (First-class objects)\n",
+    "def multiply_by(n):\n",
+    "    def multiplier(x):\n",
+    "        return x * n\n",
+    "    return multiplier\n",
+    "\n",
+    "double = multiply_by(2)\n",
+    "triple = multiply_by(3)\n",
+    "\n",
+    "print(f\"double(5) = {double(5)}\")\n",
+    "print(f\"triple(5) = {triple(5)}\")\n",
+    "\n",
+    "# b. การใช้ lambda functions\n",
+    "square = lambda x: x ** 2\n",
+    "print(f\"square(5) = {square(5)}\")\n",
+    "\n",
+    "# ใช้กับ built-in functions\n",
+    "numbers = [1, 2, 3, 4, 5]\n",
+    "squared_numbers = list(map(lambda x: x ** 2, numbers))\n",
+    "print(f\"Squared numbers: {squared_numbers}\")\n",
+    "\n",
+    "# c. การใช้ฟังก์ชันกับ list comprehension\n",
+    "def is_even(n):\n",
+    "    return n % 2 == 0\n",
+    "\n",
+    "numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n",
+    "even_numbers = [n for n in numbers if is_even(n)]\n",
+    "print(f\"Even numbers: {even_numbers}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## 4. ตัวอย่างการประยุกต์ใช้ฟังก์ชัน: ระบบจัดการรายการสินค้า"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# สร้างรายการสินค้าเริ่มต้น\n",
+    "inventory = {}\n",
+    "\n",
+    "def add_item(name, price, quantity):\n",
+    "    if name in inventory:\n",
+    "        print(f\"สินค้า '{name}' มีอยู่แล้ว ทำการอัพเดตจำนวน\")\n",
+    "        inventory[name]['quantity'] += quantity\n",
+    "    else:\n",
+    "        inventory[name] = {'price': price, 'quantity': quantity}\n",
+    "    print(f\"เพิ่มสินค้า '{name}' จำนวน {quantity} ชิ้น ราคาชิ้นละ {price} บาท\")\n",
+    "\n",
+    "def remove_item(name, quantity):\n",
+    "    if name in inventory:\n",
+    "        if inventory[name]['quantity'] >= quantity:\n",
+    "            inventory[name]['quantity'] -= quantity\n",
+    "            print(f\"ลบสินค้า '{name}' จำนวน {quantity} ชิ้น\")\n",
+    "            if inventory[name]['quantity'] == 0:\n",
+    "                del inventory[name]\n",
+    "                print(f\"สินค้า '{name}' ถูกลบออกจากรายการเนื่องจากหมดสต็อก\")\n",
+    "        else:\n",
+    "            print(f\"ไม่สามารถลบสินค้า '{name}' ได้ เนื่องจากมีจำนวนไม่เพียงพอ\")\n",
+    "    else:\n",
+    "        print(f\"ไม่พบสินค้า '{name}' ในรายการ\")\n",
+    "\n",
+    "def display_inventory():\n",
+    "    if not inventory:\n",
+    "        print(\"ไม่มีสินค้าในรายการ\")\n",
+    "    else:\n",
+    "        print(\"รายการสินค้า:\")\n",
+    "        for name, info in inventory.items():\n",
+    "            print(f\"- {name}: ราคา {info['price']} บาท, จำนวน {info['quantity']} ชิ้น\")\n",
+    "\n",
+    "def calculate_total_value():\n",
+    "    total = sum(item['price'] * item['quantity'] for item in inventory.values())\n",
+    "    return total\n",
+    "\n",
+    "# ทดสอบการใช้งานฟังก์ชัน\n",
+    "add_item(\"แอปเปิ้ล\", 10, 50)\n",
+    "add_item(\"กล้วย\", 5, 100)\n",
+    "add_item(\"ส้ม\", 8, 75)\n",
+    "\n",
+    "print(\"\\nแสดงรายการสินค้าหลังเพิ่ม:\")\n",
+    "display_inventory()\n",
+    "\n",
+    "remove_item(\"แอปเปิ้ล\", 20)\n",
+    "add_item(\"แอปเปิ้ล\", 12, 30)\n",
+    "\n",
+    "print(\"\\nแสดงรายการสินค้าหลังอัพเดต:\")\n",
+    "display_inventory()\n",
+    "\n",
+    "total_value = calculate_total_value()\n",
+    "print(f\"\\nมูลค่ารวมของสินค้าทั้งหมด: {total_value} บาท\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "คุณสามารถทดลองแก้ไขและเพิ่มเติมโค้ดในเซลล์ด้านบนเพื่อเรียนรู้เพิ่มเติมเกี่ยวกับการใช้งานฟังก์ชันใน Python!"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.8.8"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
